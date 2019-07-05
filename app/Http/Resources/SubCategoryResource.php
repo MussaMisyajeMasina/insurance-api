@@ -15,7 +15,9 @@ class SubCategoryResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'SubCategoryName'=>$this ->SubCategoryName
+            'id'=>$this-> id,
+            'category_id'=>$this-> category_id,
+            'subcategory_name'=>$this-> subcategory_name,
         ];
     }
 }

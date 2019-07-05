@@ -16,11 +16,11 @@ class SubCategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Category $category)
+   public function index()
     {
-        return SubCategoryResource::collection($category->subcategories);
-    }
+        return SubCategoryResource::collection(SubCategory::all());
 
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -37,14 +37,22 @@ class SubCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(SubCategoryRequest $request, Category $category)
+    public function store(SubCategoryRequest $request)
     {
-        $subCategory=new SubCategory($request->all());
-        $category->subcategories()->save($subCategory);
-
-         return response([
+        $subCategory=new subCategory;
+        $subCategory->category_id=$request->category_id;
+        $subCategory->subcategory_name=$request->subcategory_name;
+        $subCategory->save();
+        return response([
             'data'=>new SubCategoryResource($subCategory)
         ],Response::HTTP_CREATED);
+
+        // $subCategory=new SubCategory($request->all());
+        // $category->subcategories()->save($subCategory);
+
+        //  return response([
+        //     'data'=>new SubCategoryResource($subCategory)
+        // ],Response::HTTP_CREATED);
 
     }
 
@@ -56,7 +64,8 @@ class SubCategoryController extends Controller
      */
     public function show(SubCategory $subCategory)
     {
-        //
+        //this will return subcategories
+          return new SubCategoryResource($subCategory);
     }
 
     /**
@@ -79,7 +88,11 @@ class SubCategoryController extends Controller
      */
     public function update(Request $request, SubCategory $subCategory)
     {
-        //
+        $subCategory->update($request->all());
+
+        return response([
+            'data'=>new SubCategoryResource($subCategory)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -90,6 +103,7 @@ class SubCategoryController extends Controller
      */
     public function destroy(SubCategory $subCategory)
     {
-        //
+        $subCategory->delete();
+        return response(null,Response::HTTP_NO_CONTENT);
     }
 }

@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
     ];
 
     /**
@@ -76,5 +77,15 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\AuthenticateSession::class,
         \Illuminate\Routing\Middleware\SubstituteBindings::class,
         \Illuminate\Auth\Middleware\Authorize::class,
+        \App\Http\Middleware\CorsMiddleware::class,
     ];
+
+
+    // protected $routeMiddleware = [
+
+    //     'jwt.verify' => \App\Http\Middleware\JwtMiddleware::class,
+    // ];
+
+
+
 }

@@ -15,10 +15,13 @@ class CategoryResource extends JsonResource
     public function toArray($request)
     {
         return [
+            'id'=>$this-> id,
             'CategoryName'=>$this-> CategoryName,
-            'href'=>[
-                'subcategories'=> route('subcategories.index',$this->id)
-            ]
+            // 'SubCategoryName'=>$this-> SubCategoryName,
+            'created_at'=>$this-> created_at,
+            // 'href'=>[
+            //     'subcategories'=> route('subcategories.index',$this->id)
+            // ]
         ];
     }
 }

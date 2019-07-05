@@ -14,7 +14,14 @@ class CreatePoliciesTable extends Migration
     public function up()
     {
         Schema::create('policies', function (Blueprint $table) {
-            $table->bigIncrements('id');
+
+            $table->Increments('id');
+            $table->integer('client_id')->unsigned()->index();
+            $table->foreign('client_id')->references('id')->on('clients')->onDelete('cascade');
+             $table->string('CategoryName');
+              $table->integer('PolicyNumber')->unique();
+              $table->date('EffectiveDate');
+              $table->date('ExpireDate');
             $table->timestamps();
         });
     }

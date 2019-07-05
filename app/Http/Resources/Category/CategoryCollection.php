@@ -16,11 +16,12 @@ class CategoryCollection extends Resource
     {
         //the collection returs all the things from the tables. for aspecific we use the resource controller
         return [
+            'id'=>$this->id,
             'CategoryName'=>$this->CategoryName,
             'created_at'=>$this->created_at,
-            'href'=>[
-                'link'=> route('categories.show', $this->id)
-            ]
+            // 'href'=>[
+            //     'link'=> route('categories.show', $this->id)
+            // ]
         ];
     }
 }

@@ -41,6 +41,7 @@ class CategoryController extends Controller
     {
         $category=new Category;
         $category->CategoryName=$request->CategoryName;
+        // $category->SubCategoryName=$request->SubCategoryName;
         $category->save();
         return response([
             'data'=>new CategoryResource($category)

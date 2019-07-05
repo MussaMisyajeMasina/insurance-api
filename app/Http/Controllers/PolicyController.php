@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Model\Policy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use App\Http\Requests\PolicyRequest;
+use App\Http\Resources\Policy\PolicyResource;
+use Symfony\Component\HttpFoundation\Response;
 
 class PolicyController extends Controller
 {
@@ -14,7 +18,26 @@ class PolicyController extends Controller
      */
     public function index()
     {
-        //
+
+        $policies = PolicyResource::collection(Policy::all());
+
+        $totalPolicies = [
+            'policies' => $policies,
+            'policies_count' => $policies->count()
+
+        ];
+
+        return $totalPolicies;
+
+
+        // $q->whereDate('ExpireDate', '>', date('Y-m-d'));
+        // return $q;
+        // $policy=Policy::where('ExpireDate', '<=', $currentDate)->get();
+        // return $today = date("d/m/Y");
+
+        //  return PolicyResource::collection(Policy::all());
+
+
     }
 
     /**
@@ -33,9 +56,18 @@ class PolicyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PolicyRequest $request)
     {
-        //
+        $policy=new policy;
+        $policy->client_id=$request->client_id;
+        $policy->CategoryName=$request->CategoryName;
+        $policy->PolicyNumber=$request->PolicyNumber;
+        $policy->EffectiveDate=$request->EffectiveDate;
+        $policy->ExpireDate=$request->ExpireDate;
+        $policy->save();
+        return response([
+            'data'=>new PolicyResource($policy)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -46,7 +78,7 @@ class PolicyController extends Controller
      */
     public function show(Policy $policy)
     {
-        //
+        return new PolicyResource($policy);
     }
 
     /**
@@ -69,7 +101,12 @@ class PolicyController extends Controller
      */
     public function update(Request $request, Policy $policy)
     {
-        //
+
+        $policy->update($request->all());
+
+        return response([
+            'data'=>new PolicyResource($policy)
+        ],Response::HTTP_CREATED);
     }
 
     /**
@@ -80,6 +117,7 @@ class PolicyController extends Controller
      */
     public function destroy(Policy $policy)
     {
-        //
+        $policy->delete();
+         return response(null,Response::HTTP_NO_CONTENT);
     }
 }
